@@ -1,11 +1,11 @@
 #Universal Tile Maker
 
 This script creates PNG images to be used for Tile assets in a Universal Windows 10 application.
-It is optimized to generate transparent tiles which will use the systems accent color as default and that look consistent with Microsoft's own apps.
+It is optimized to generate transparent tiles which will use the system's accent color as default and that look consistent with Microsoft's own apps.
 
 ##Requirements
 
-Inkscape, either installed or standalone: the actual conversion fromSVG to PNG is handled by it.
+Inkscape, either installed or standalone: the actual conversion from SVG to PNG is handled by it.
 
 If not located in the default install location (C:\Program Files\Inkscape\inkscape.exe), edit
 ```
