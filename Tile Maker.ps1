@@ -98,15 +98,14 @@ foreach($tileConfig in $config)
 {
     [xml]$xml = Get-Content $iconMasterFile
     $svgNode = $xml.ChildNodes | Where-Object { $_.Name -eq "svg" } | Select-Object -First 1
-    $groupNodes = $svgNode.ChildNodes | Where-Object { $_.Name -eq "g" }
-    $groupNodes = $groupNodes | Where-Object { $_.label -ne $tileConfig.LayerName }
-    foreach($node in $groupNodes)
-    {
-        if($node.Localname -ne $tileConfig.LayerName)
-        {
-            $null = $svgNode.RemoveChild($node)
-        }
-    }
+    
+    $metadataNode = $svgNode.ChildNodes | Where-Object { $_.Name -eq "metadata" } | Select-Object -First 1
+    $groupNode = $svgNode.ChildNodes | Where-Object { $_.Name -eq "g" } | Where-Object { $_.label -eq $tileConfig.LayerName } | Select-Object -First 1
+    
+    $svgNode.RemoveAll()
+    $svgNode.AppendChild($metadataNode)
+    $svgNode.AppendChild($groupNode)
+
     $xml.Save($tempFile)
     
     $text = Get-Content $tempFile
