@@ -108,9 +108,9 @@ foreach($tileConfig in $config)
     $metadataNode = $svgNode.ChildNodes | Where-Object { $_.Name -eq "metadata" } | Select-Object -First 1  
     $groupNode = $svgNode.ChildNodes | Where-Object { $_.Name -eq "g" } | Where-Object { $_.label -eq $tileConfig.LayerName } | Select-Object -First 1  
 
-    $null = $svgNode.RemoveAll()  
-    $null = $svgNode.AppendChild($metadataNode)  
-    $null = $svgNode.AppendChild($groupNode)  
+    $null = $svgNode.RemoveAll()
+    $null = $svgNode.AppendChild($metadataNode)
+    $null = $svgNode.AppendChild($groupNode)
     $xml.Save($tempFile)
     
     $text = Get-Content $tempFile
