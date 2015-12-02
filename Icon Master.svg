@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="Tile Master.svg">
+   sodipodi:docname="Icon Master.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,10 +26,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="209.95006"
+     inkscape:cx="1.0214886"
      inkscape:cy="225.39563"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer7"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
@@ -56,7 +56,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer4"
-     inkscape:label="Tile_WideSplash_Logo_Size_33"
+     inkscape:label="Tile_WideSplash"
      style="display:inline"
      transform="translate(215.195,138.12994)">
     <rect
@@ -78,7 +78,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer6"
-     inkscape:label="Tile_MediumLarge_Logo_Size_33"
+     inkscape:label="Tile_MediumLarge"
      style="display:inline"
      transform="translate(215.195,138.12994)">
     <rect
@@ -100,7 +100,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="Tile_Small_Logo_Size_50"
+     inkscape:label="Tile_Small"
      style="display:inline"
      transform="translate(215.195,138.12994)">
     <rect
@@ -120,7 +120,7 @@
        rx="6.7385445" />
   </g>
   <g
-     inkscape:label="Tile_ListView_Logo_Size_75"
+     inkscape:label="Tile_ListView"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(125.00497,-205.32493)"
@@ -144,7 +144,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer7"
-     inkscape:label="Tile_Target_Logo_Size_100"
+     inkscape:label="Tile_Target"
      transform="translate(215.195,138.12994)"
      style="display:inline">
     <rect
