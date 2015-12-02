@@ -1,6 +1,6 @@
 #Universal Tile Maker
 
-This script creates all the 39 PNG images that are used for Tile assets in a Universal Windows 10 application.
+This script creates all the 43 PNG images that are used for Tile assets in a Universal Windows 10 application.
 It is optimized to generate transparent tiles which will use the system's accent color as default and that look consistent with Microsoft's own apps.
 
 ##Requirements
