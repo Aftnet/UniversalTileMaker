@@ -22,23 +22,23 @@ Add-Type @'
     {
         readonly Dictionary<int, Tuple<string, Dictionary<int, int>>> SquareScaleData;
         readonly Dictionary<string, Tuple<string, Dictionary<int, Tuple<int, int>>>> RectangleScaleData;
-        readonly int[] UnplatedSizes = new int[] { 16, 24, 48, 256 };
+        readonly int[] TargetSizes = new int[] { 16, 24, 48, 256 };
 
         public TileConfigurations()
         {
             SquareScaleData = new Dictionary<int, Tuple<string, Dictionary<int, int>>>()
             {
-                { 44, Tuple.Create("Tile_ListView_Logo_Size_75", new Dictionary<int, int>() { { 100, 44 }, { 125, 55 }, { 150, 66 }, { 200, 88 }, { 400, 176 } } )},
-                { 50, Tuple.Create("Tile_ListView_Logo_Size_75", new Dictionary<int, int>() { { 100, 50 }, { 125, 63 }, { 150, 75 }, { 200, 100 }, { 400, 200 } } )},
-                { 71, Tuple.Create("Tile_Small_Logo_Size_50", new Dictionary<int, int>() { { 100, 71 }, { 125, 89 }, { 150, 107 }, { 200, 142 }, { 400, 284 } } )},
-                { 150, Tuple.Create("Tile_MediumLarge_Logo_Size_33", new Dictionary<int, int>() { { 100, 150 }, { 125, 188 }, { 150, 225 }, { 200, 300 }, { 400, 600 } } )},
-                { 310, Tuple.Create("Tile_MediumLarge_Logo_Size_33", new Dictionary<int, int>() { { 100, 310 }, { 125, 388 }, { 150, 465 }, { 200, 620 }, { 400, 1240 } } )}
+                { 44, Tuple.Create("Tile_ListView", new Dictionary<int, int>() { { 100, 44 }, { 125, 55 }, { 150, 66 }, { 200, 88 }, { 400, 176 } } )},
+                { 50, Tuple.Create("Tile_ListView", new Dictionary<int, int>() { { 100, 50 }, { 125, 63 }, { 150, 75 }, { 200, 100 }, { 400, 200 } } )},
+                { 71, Tuple.Create("Tile_Small", new Dictionary<int, int>() { { 100, 71 }, { 125, 89 }, { 150, 107 }, { 200, 142 }, { 400, 284 } } )},
+                { 150, Tuple.Create("Tile_MediumLarge", new Dictionary<int, int>() { { 100, 150 }, { 125, 188 }, { 150, 225 }, { 200, 300 }, { 400, 600 } } )},
+                { 310, Tuple.Create("Tile_MediumLarge", new Dictionary<int, int>() { { 100, 310 }, { 125, 388 }, { 150, 465 }, { 200, 620 }, { 400, 1240 } } )}
             };
 
             RectangleScaleData = new Dictionary<string, Tuple<string, Dictionary<int, Tuple<int, int>>>>()
             {
-                { "Wide310x150Logo", Tuple.Create("Tile_WideSplash_Logo_Size_33", new Dictionary<int, Tuple<int, int>>() { { 100, Tuple.Create(310, 150) }, { 125, Tuple.Create(388, 188) }, { 150, Tuple.Create(465, 225) }, { 200, Tuple.Create(620, 300) }, { 400, Tuple.Create(1240, 600) } } )},
-                { "SplashScreen", Tuple.Create("Tile_WideSplash_Logo_Size_33", new Dictionary<int, Tuple<int, int>>() { { 100, Tuple.Create(620, 300) }, { 125, Tuple.Create(775, 375) }, { 150, Tuple.Create(930, 450) }, { 200, Tuple.Create(1240, 600) }, { 400, Tuple.Create(2480, 1200) } } )}
+                { "Wide310x150Logo", Tuple.Create("Tile_WideSplash", new Dictionary<int, Tuple<int, int>>() { { 100, Tuple.Create(310, 150) }, { 125, Tuple.Create(388, 188) }, { 150, Tuple.Create(465, 225) }, { 200, Tuple.Create(620, 300) }, { 400, Tuple.Create(1240, 600) } } )},
+                { "SplashScreen", Tuple.Create("Tile_WideSplash", new Dictionary<int, Tuple<int, int>>() { { 100, Tuple.Create(620, 300) }, { 125, Tuple.Create(775, 375) }, { 150, Tuple.Create(930, 450) }, { 200, Tuple.Create(1240, 600) }, { 400, Tuple.Create(2480, 1200) } } )}
             };
         }
 
@@ -66,13 +66,20 @@ Add-Type @'
                 }).ToArray()
             });
 
+			var platedScaleTiles = new TileConfiguration
+            {
+                LayerName = "Tile_ListView",
+                Sizes = TargetSizes.Select(d => new Size { Width = d, Height = d, FileName = string.Format("Square44x44Logo.targetsize-{0}.png", d) }).ToArray()
+            };
+
             var unplatedScaleTiles = new TileConfiguration
             {
-                LayerName = "Tile_Target_Logo_Size_100",
-                Sizes = UnplatedSizes.Select(d => new Size { Width = d, Height = d, FileName = string.Format("Square44x44Logo.targetsize-{0}_altform-unplated.png", d) }).ToArray()
+                LayerName = "Tile_Target",
+                Sizes = TargetSizes.Select(d => new Size { Width = d, Height = d, FileName = string.Format("Square44x44Logo.targetsize-{0}_altform-unplated.png", d) }).ToArray()
             };
 
             var output = squareScaleTiles.Concat(rectangleScaleTiles).ToList();
+			output.Add(platedScaleTiles);
             output.Add(unplatedScaleTiles);
 
             return output.ToArray();
@@ -85,7 +92,7 @@ return $config.GetConfigurations()
 }
 
 $inkScapePath = "C:\Program Files\Inkscape\inkscape.exe"
-$iconMasterFile = ".\Tile Master.svg"
+$iconMasterFile = ".\Icon Master.svg"
 
 $backgroundColor = "#ff6600"
 $tempFile = ".\Temp.svg"
@@ -98,14 +105,15 @@ foreach($tileConfig in $config)
 {
     [xml]$xml = Get-Content $iconMasterFile
     $svgNode = $xml.ChildNodes | Where-Object { $_.Name -eq "svg" } | Select-Object -First 1
-    
-    $metadataNode = $svgNode.ChildNodes | Where-Object { $_.Name -eq "metadata" } | Select-Object -First 1
-    $groupNode = $svgNode.ChildNodes | Where-Object { $_.Name -eq "g" } | Where-Object { $_.label -eq $tileConfig.LayerName } | Select-Object -First 1
-    
-    $svgNode.RemoveAll()
-    $svgNode.AppendChild($metadataNode)
-    $svgNode.AppendChild($groupNode)
-
+    $groupNodes = $svgNode.ChildNodes | Where-Object { $_.Name -eq "g" }
+    $groupNodes = $groupNodes | Where-Object { $_.label -ne $tileConfig.LayerName }
+    foreach($node in $groupNodes)
+    {
+        if($node.Localname -ne $tileConfig.LayerName)
+        {
+            $null = $svgNode.RemoveChild($node)
+        }
+    }
     $xml.Save($tempFile)
     
     $text = Get-Content $tempFile
